@@ -1,9 +1,9 @@
 /*
   Program: Online Banking System
   Autor: sgb004
-  Date: 03/04/2024
+  Date: 03/01/2024
   Description: This program is the solution to exercise number 1, read the level_0.txt file for more information.
-  Compilation: This program needs password_hidden to be compiled first. If you use g++ you can use: g++ -o 001-online-banking-system password_hidden.cpp 001-online-banking-system.cpp
+  Compilation: This program needs password_hidden and utils to be compiled first. If you use g++ you can use: g++ -o 001-online-banking-system password_hidden.cpp utils.cpp 001-online-banking-system.cpp
 */
 
 #include <string>
@@ -11,32 +11,11 @@
 #include <iomanip>
 #include <sstream>
 #include "password_hidden.h"
+#include "utils.h"
 
 using namespace std;
 
 float balance = 2000;
-
-float getAmount(string message){
-	float amount;
-
-	do{
-		cout << message;
-		cin >> amount;
-
-		if(amount < 0){
-			cout << "\nThe amount must be greater than zero.\n";
-		}
-	}while(amount <= 0);
-
-	return amount;
-}
-
-bool confirmOperation(string message){
-	char confirm;
-	cout << message << " [write y to confirm or any character to cancel]\n";
-	cin >> confirm;
-	return (confirm == 'y' || confirm == 'Y');
-}
 
 void subtractFunds(float amount, string messageSuccess){
 	float result = balance - amount;
@@ -48,16 +27,9 @@ void subtractFunds(float amount, string messageSuccess){
 	}
 }
 
-string formatNumber(float number){
-	char buffer[100];
-    snprintf(buffer, sizeof(buffer), "%'.2f", number);
-	string result = buffer;
-	return "$" + result;
-}
-
 void deposit() {
 	float amount = getAmount("\nHow much do you want to deposit?\n");
-	bool confirm = confirmOperation("\nAre you sure you want to deposit " + formatNumber(amount) + " in your account?");
+	bool confirm = confirmOperation("\nAre you sure you want to deposit " + formatNumberMoney(amount) + " in your account?");
 
 	if(confirm){
 		balance = balance + amount;
@@ -69,7 +41,7 @@ void deposit() {
 
 void withdraw() {
 	float amount = getAmount("\nHow much do you want to withdraw?\n");
-	bool confirm = confirmOperation("\nAre you sure you want to withdraw " + formatNumber(amount) + " from your account?");
+	bool confirm = confirmOperation("\nAre you sure you want to withdraw " + formatNumberMoney(amount) + " from your account?");
 
 	if(confirm){
 		subtractFunds(amount, "\nWithdraw completed successfully.\n");
@@ -79,7 +51,7 @@ void withdraw() {
 }
 
 void view() {
-	cout << "\nYour current balance is " << formatNumber(balance) << " \n";
+	cout << "\nYour current balance is " << formatNumberMoney(balance) << " \n";
 }
 
 void transfer() {
@@ -91,7 +63,7 @@ void transfer() {
 	getline(cin >> ws, person);
 
 	amount = getAmount("\nHow much do you wish to transfer?\n");
-	confirm = confirmOperation("\nAre you sure you want to transfer " + formatNumber(amount) + " to " + person + "?");
+	confirm = confirmOperation("\nAre you sure you want to transfer " + formatNumberMoney(amount) + " to " + person + "?");
 
 	if(confirm){
 		subtractFunds(amount, "\nTransfer completed successfully.\n");
