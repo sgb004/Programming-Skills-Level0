@@ -1,8 +1,8 @@
 /*
   Header File: password_hidden.h
   Author: ChatGTP
-  Date: 03/04/2024
-  Description: This file contains the declaration of the password_hidden class.
+  Date: 03/01/2024
+  Description: This file contains the declaration of the password_hidden.cpp file.
 */
 
 #ifndef PASSWORD_HIDDEN_H
